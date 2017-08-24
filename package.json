@@ -1,0 +1,41 @@
+{
+  "name": "todoReactApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "path": "^0.12.7",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.5.0",
+    "eslint-cli": "^1.1.1",
+    "eslint-config-airbnb-base": "^11.3.2",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "nodemon": "^1.11.0",
+    "prettier": "^1.5.3",
+    "webpack": "^3.5.5"
+  },
+  "eslintConfig": {
+    "extends": ["airbnb-base", "prettier"]
+  },
+  "babel": {
+    "presets": ["env", "react"]
+  }
+}
