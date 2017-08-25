@@ -23,19 +23,28 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "eslint": "^4.5.0",
+    "eslint": "^3.19.0",
     "eslint-cli": "^1.1.1",
-    "eslint-config-airbnb-base": "^11.3.2",
+    "eslint-config-airbnb": "^14.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
     "nodemon": "^1.11.0",
     "prettier": "^1.5.3",
     "webpack": "^3.5.5"
   },
-  "eslintConfig": {
-    "extends": ["airbnb-base", "prettier"]
-  },
   "babel": {
     "presets": ["env", "react"]
+  },
+  "eslintConfig": {
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "plugins": ["react", "jsx-a11y", "import"],
+    "rules": {
+      "react/jsx-filename-extension": "off",
+      "react/prefer-stateless-function": "off",
+      "jsx-a11y/href-no-hash": "off",
+      "jsx-a11y/img-has-alt": "off"
+    }
   }
 }
