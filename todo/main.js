@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 
 import App from './components/App';
 
-const taskList = [
-  { id: 1, text: 'go to store', complite: false },
-  { id: 2, text: 'go to walk', complite: false },
-];
+// const taskList = [
+//   { text: 'go to store', complite: false },
+//   { text: 'go to walk', complite: false },
+// ];
 
-render(<App tasks={taskList} />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));

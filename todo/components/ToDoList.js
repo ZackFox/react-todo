@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
-// import ToDoItem from '../components/toDoItem';
+import ToDoItem from './ToDoItem';
 
 class ToDoList extends Component {
   render() {
-    const toDoItems = this.props.tasks.map(item =>
-      <li key={item.id}>
-        {item.text}
-      </li>
-    );
+    const tasks = this.props.tasks;
+
+    if (!tasks) {
+      return (
+        <div className="well">
+          <p>загрузка...</p>
+        </div>
+      );
+    }
 
     return (
-      <div>
-        {toDoItems}
+      <div className="well">
+        {tasks.map(task =>
+          <p key={task._id}>
+            {task.text}
+          </p>
+        )}
       </div>
     );
   }

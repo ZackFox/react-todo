@@ -4,8 +4,9 @@ class ToDoItem extends Component {
   render() {
     return (
       <div>
-        <h1>React App</h1>
-        <div>....</div>
+        <p>
+          {this.props.value}
+        </p>
       </div>
     );
   }
