@@ -9,8 +9,9 @@ taskController.getTaskList = (req, res, next) => {
 taskController.create = (req, res) => {
   const newTask = new Task();
   newTask.text = req.body.text;
-  newTask.save().then(() => {
-    res.json({ status: true, ms: 'success' });
+
+  newTask.save().then(task => {
+    res.status(200).json({ status: '200', message: 'success', task });
   });
 };
 

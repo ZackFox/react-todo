@@ -8,23 +8,22 @@ class ToDoForm extends Component {
 
   addHandler(event) {
     event.preventDefault();
-    const field = document.getElementById('field');
-    if (field.value === '') return false;
-
-    const task = {
-      text: field.value,
-      comlite: false,
-    };
-
-    this.props.addTask(task);
-    field.value = '';
+    const text = this.textField.value;
+    if (text !== '') {
+      this.props.addTask(text);
+      this.textField.value = '';
+    }
   }
 
   render() {
     return (
       <div className="well">
         <form onSubmit={this.addHandler}>
-          <input type="text" id="field" placeholder="type new task" />
+          <input
+            type="text"
+            ref={el => (this.textField = el)}
+            placeholder="type new task"
+          />
           <input type="submit" value="Новая задача" />
         </form>
       </div>

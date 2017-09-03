@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "mongoose": "^4.11.9",
@@ -39,11 +40,22 @@
     "webpack": "^3.5.5"
   },
   "babel": {
-    "presets": ["env", "react"]
+    "presets": [
+      "env",
+      "react"
+    ]
   },
   "eslintConfig": {
-    "extends": ["airbnb", "prettier", "prettier/react"],
-    "plugins": ["react", "jsx-a11y", "import"],
+    "extends": [
+      "airbnb",
+      "prettier",
+      "prettier/react"
+    ],
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import"
+    ],
     "rules": {
       "react/jsx-filename-extension": "off",
       "react/prefer-stateless-function": "off",

@@ -3,23 +3,21 @@ import ToDoItem from './ToDoItem';
 
 class ToDoList extends Component {
   render() {
-    const tasks = this.props.tasks;
+    let taskItems;
 
-    if (!tasks) {
-      return (
-        <div className="well">
-          <p>загрузка...</p>
-        </div>
+    if (this.props.tasks) {
+      taskItems = this.props.tasks.map(task =>
+        <ToDoItem
+          key={task._id}
+          task={task}
+          deleteTask={this.props.deleteTask}
+        />
       );
     }
 
     return (
       <div className="well">
-        {tasks.map(task =>
-          <p key={task._id}>
-            {task.text}
-          </p>
-        )}
+        {!this.props.tasks ? <p>загрузка..</p> : taskItems}
       </div>
     );
   }
