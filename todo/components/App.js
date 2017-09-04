@@ -7,8 +7,9 @@ import ToDoList from '../components/ToDoList';
 class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { tasks: [] };
     this.addTask = this.addTask.bind(this);
+    this.toggleTask = this.toggleTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
   }
 
@@ -27,6 +28,13 @@ class App extends Component {
     });
   }
 
+  toggleTask(id) {
+    const task = this.state.tasks.filter(t => t._id === id);
+    task.isComplited = !task.isComplited;
+
+    console.log(this.state.tasks);
+  }
+
   deleteTask(taskId) {
     console.log('удалить ' + taskId);
 
@@ -42,7 +50,11 @@ class App extends Component {
           <h3>Менеджер задач</h3>
         </header>
         <ToDoForm addTask={this.addTask} />
-        <ToDoList tasks={this.state.tasks} deleteTask={this.deleteTask} />
+        <ToDoList
+          tasks={this.state.tasks}
+          toggleTask={this.toggleTask}
+          deleteTask={this.deleteTask}
+        />
       </div>
     );
   }

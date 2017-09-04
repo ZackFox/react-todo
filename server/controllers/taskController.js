@@ -15,12 +15,15 @@ taskController.create = (req, res) => {
   });
 };
 
-// taskController.update = (req, res, next) => {
-//   Task.find({}).then(tasks => res.json(tasks)).catch(err => next(err));
-// };
+taskController.update = (req, res, next) => {
+  // Task.find({}).then(tasks => res.json(tasks)).catch(err => next(err));
+};
 
-// taskController.delete = (req, res, next) => {
-//   Task.find({}).then(tasks => res.json(tasks)).catch(err => next(err));
-// };
+taskController.delete = (req, res, next) => {
+  const _id = req.params.id;
+  Task.findByIdAndRemove({ _id })
+    .then(data => console.log(data))
+    .catch(err => next(err));
+};
 
 module.exports = taskController;

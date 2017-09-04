@@ -10,6 +10,7 @@ class ToDoList extends Component {
         <ToDoItem
           key={task._id}
           task={task}
+          toggleTask={this.props.toggleTask}
           deleteTask={this.props.deleteTask}
         />
       );

@@ -23121,6 +23121,7 @@ var App = function (_Component) {
 
     _this.state = {};
     _this.addTask = _this.addTask.bind(_this);
+    _this.toggleTask = _this.toggleTask.bind(_this);
     _this.deleteTask = _this.deleteTask.bind(_this);
     return _this;
   }
@@ -23148,6 +23149,15 @@ var App = function (_Component) {
       });
     }
   }, {
+    key: 'toggleTask',
+    value: function toggleTask(id) {
+      var task = this.state.tasks.filter(function (t) {
+        return t._id === id;
+      });
+      task.isComplited = !task.isComplited;
+      console.log(this.state.tasks);
+    }
+  }, {
     key: 'deleteTask',
     value: function deleteTask(taskId) {
       console.log('удалить ' + taskId);
@@ -23172,7 +23182,11 @@ var App = function (_Component) {
           )
         ),
         _react2.default.createElement(_ToDoForm2.default, { addTask: this.addTask }),
-        _react2.default.createElement(_ToDoList2.default, { tasks: this.state.tasks, deleteTask: this.deleteTask })
+        _react2.default.createElement(_ToDoList2.default, {
+          tasks: this.state.tasks,
+          toggleTask: this.toggleTask,
+          deleteTask: this.deleteTask
+        })
       );
     }
   }]);
@@ -24182,6 +24196,7 @@ var ToDoList = function (_Component) {
           return _react2.default.createElement(_ToDoItem2.default, {
             key: task._id,
             task: task,
+            toggleTask: _this2.props.toggleTask,
             deleteTask: _this2.props.deleteTask
           });
         });
@@ -24238,6 +24253,7 @@ var ToDoItem = function (_Component) {
     var _this = _possibleConstructorReturn(this, (ToDoItem.__proto__ || Object.getPrototypeOf(ToDoItem)).call(this, props));
 
     _this.clickHandler = _this.clickHandler.bind(_this);
+    _this.toggleHandler = _this.toggleHandler.bind(_this);
     return _this;
   }
 
@@ -24247,6 +24263,13 @@ var ToDoItem = function (_Component) {
       e.preventDefault();
       var taskId = e.target.parentNode.id;
       this.props.deleteTask(taskId);
+    }
+  }, {
+    key: "toggleHandler",
+    value: function toggleHandler(e) {
+      e.preventDefault();
+      var id = e.target.parentNode.id;
+      this.props.toggleTask(id);
     }
   }, {
     key: "render",
@@ -24261,8 +24284,8 @@ var ToDoItem = function (_Component) {
         ),
         _react2.default.createElement(
           "a",
-          { href: "/", className: "btn", onClick: this.clickHandler },
-          "edit"
+          { href: "/", className: "btn", onClick: this.toggleHandler },
+          "toggle"
         ),
         _react2.default.createElement(
           "a",
