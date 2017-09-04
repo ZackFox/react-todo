@@ -22,7 +22,7 @@ taskController.update = (req, res, next) => {
 taskController.delete = (req, res, next) => {
   const _id = req.params.id;
   Task.findByIdAndRemove({ _id })
-    .then(data => console.log(data))
+    .then(() => res.status(200).json({ status: '200', message: 'success' }))
     .catch(err => next(err));
 };
 

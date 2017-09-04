@@ -36,11 +36,11 @@ class App extends Component {
   }
 
   deleteTask(taskId) {
-    console.log('удалить ' + taskId);
-
-    // const tasks = this.state.tasks;
-    // tasks.push(task);
-    // this.setState({ tasks });
+    axios.delete('/api/v1/task/' + taskId).then(() => {
+      this.setState(prevState => ({
+        tasks: prevState.tasks.filter(({ _id }) => _id !== taskId),
+      }));
+    });
   }
 
   render() {

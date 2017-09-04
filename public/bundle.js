@@ -23119,7 +23119,7 @@ var App = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-    _this.state = {};
+    _this.state = { tasks: [] };
     _this.addTask = _this.addTask.bind(_this);
     _this.toggleTask = _this.toggleTask.bind(_this);
     _this.deleteTask = _this.deleteTask.bind(_this);
@@ -23155,16 +23155,24 @@ var App = function (_Component) {
         return t._id === id;
       });
       task.isComplited = !task.isComplited;
+
       console.log(this.state.tasks);
     }
   }, {
     key: 'deleteTask',
     value: function deleteTask(taskId) {
-      console.log('удалить ' + taskId);
+      var _this4 = this;
 
-      // const tasks = this.state.tasks;
-      // tasks.push(task);
-      // this.setState({ tasks });
+      _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
+        _this4.setState(function (prevState) {
+          return {
+            tasks: prevState.tasks.filter(function (_ref) {
+              var _id = _ref._id;
+              return _id !== taskId;
+            })
+          };
+        });
+      });
     }
   }, {
     key: 'render',
