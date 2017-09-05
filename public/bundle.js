@@ -23150,21 +23150,29 @@ var App = function (_Component) {
     }
   }, {
     key: 'toggleTask',
-    value: function toggleTask(id) {
-      var task = this.state.tasks.filter(function (t) {
-        return t._id === id;
-      });
-      task.isComplited = !task.isComplited;
+    value: function toggleTask(taskId) {
+      var _this4 = this;
 
-      console.log(this.state.tasks);
+      _axios2.default.put('/api/v1/task/' + taskId).then(function () {
+        _this4.setState(function (prevState) {
+          return {
+            tasks: prevState.tasks.map(function (task) {
+              if (task._id === taskId) {
+                task.isCompleted = !task.isCompleted;
+              }
+              return task;
+            })
+          };
+        });
+      });
     }
   }, {
     key: 'deleteTask',
     value: function deleteTask(taskId) {
-      var _this4 = this;
+      var _this5 = this;
 
       _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
-        _this4.setState(function (prevState) {
+        _this5.setState(function (prevState) {
           return {
             tasks: prevState.tasks.filter(function (_ref) {
               var _id = _ref._id;
@@ -24266,39 +24274,38 @@ var ToDoItem = function (_Component) {
   }
 
   _createClass(ToDoItem, [{
-    key: "clickHandler",
+    key: 'clickHandler',
     value: function clickHandler(e) {
       e.preventDefault();
       var taskId = e.target.parentNode.id;
       this.props.deleteTask(taskId);
     }
   }, {
-    key: "toggleHandler",
+    key: 'toggleHandler',
     value: function toggleHandler(e) {
-      e.preventDefault();
-      var id = e.target.parentNode.id;
+      console.log(e);
+      var id = e.target.id;
       this.props.toggleTask(id);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "taskItem", id: this.props.task._id },
+        'div',
+        {
+          className: !this.props.task.isCompleted ? 'taskItem' : 'taskItem completed',
+          id: this.props.task._id,
+          onClick: this.toggleHandler
+        },
         _react2.default.createElement(
-          "p",
+          'p',
           null,
           this.props.task.text
         ),
         _react2.default.createElement(
-          "a",
-          { href: "/", className: "btn", onClick: this.toggleHandler },
-          "toggle"
-        ),
-        _react2.default.createElement(
-          "a",
-          { href: "/", className: "btn", onClick: this.clickHandler },
-          "del"
+          'a',
+          { href: '/', className: 'btn', onClick: this.clickHandler },
+          'del'
         )
       );
     }

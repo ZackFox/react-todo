@@ -28,15 +28,21 @@ class App extends Component {
     });
   }
 
-  toggleTask(id) {
-    const task = this.state.tasks.filter(t => t._id === id);
-    task.isComplited = !task.isComplited;
-
-    console.log(this.state.tasks);
+  toggleTask(taskId) {
+    axios.put(`/api/v1/task/${taskId}`).then(() => {
+      this.setState(prevState => ({
+        tasks: prevState.tasks.map(task => {
+          if (task._id === taskId) {
+            task.isCompleted = !task.isCompleted;
+          }
+          return task;
+        }),
+      }));
+    });
   }
 
   deleteTask(taskId) {
-    axios.delete('/api/v1/task/' + taskId).then(() => {
+    axios.delete(`/api/v1/task/${taskId}`).then(() => {
       this.setState(prevState => ({
         tasks: prevState.tasks.filter(({ _id }) => _id !== taskId),
       }));
