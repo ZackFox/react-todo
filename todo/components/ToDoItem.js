@@ -1,45 +1,48 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 class ToDoItem extends Component {
   constructor(props) {
     super(props);
-    this.clickHandler = this.clickHandler.bind(this);
+    this.deleteItemHandler = this.deleteItemHandler.bind(this);
     this.toggleHandler = this.toggleHandler.bind(this);
   }
-
-  clickHandler(e) {
-    e.preventDefault();
-    const taskId = e.target.parentNode.id;
-    this.props.deleteTask(taskId);
+  toggleHandler() {
+    this.props.toggleTask(this.taskItem.id);
   }
 
-  toggleHandler() {
-    const id = e.target.parentNode.id;
-    this.props.toggleTask(id);
+  deleteItemHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.deleteTask(this.taskItem.id);
   }
 
   render() {
+    const { task } = this.props;
+
     return (
       <div
-        className={
-          !this.props.task.isCompleted ? 'taskItem' : 'taskItem completed'
-        }
-        id={this.props.task._id}
+        id={task._id}
+        ref={el => (this.taskItem = el)}
+        onClick={this.toggleHandler}
+        className={!task.isCompleted ? 'taskItem' : 'taskItem completed'}
       >
         <p>
-          {this.props.task.text}
+          {task.text}
         </p>
 
-        <a href="/" className="btn" onClick={this.toggleHandler}>
+        {/* <a href="/" className="" >
+          <i className="fa fa-check-square-o" />
           toggle
-        </a>
+        </a> */}
 
-        <a href="/" className="btn" onClick={this.clickHandler}>
-          del
+        <a href="/" className="" onClick={this.deleteItemHandler}>
+          delete
         </a>
       </div>
     );
   }
 }
+
+ToDoItem.prototypes = {};
 
 export default ToDoItem;

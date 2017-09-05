@@ -24268,44 +24268,50 @@ var ToDoItem = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (ToDoItem.__proto__ || Object.getPrototypeOf(ToDoItem)).call(this, props));
 
-    _this.clickHandler = _this.clickHandler.bind(_this);
+    _this.deleteItemHandler = _this.deleteItemHandler.bind(_this);
     _this.toggleHandler = _this.toggleHandler.bind(_this);
     return _this;
   }
 
   _createClass(ToDoItem, [{
-    key: 'clickHandler',
-    value: function clickHandler(e) {
-      e.preventDefault();
-      var taskId = e.target.parentNode.id;
-      this.props.deleteTask(taskId);
+    key: 'toggleHandler',
+    value: function toggleHandler() {
+      this.props.toggleTask(this.taskItem.id);
     }
   }, {
-    key: 'toggleHandler',
-    value: function toggleHandler(e) {
-      console.log(e);
-      var id = e.target.id;
-      this.props.toggleTask(id);
+    key: 'deleteItemHandler',
+    value: function deleteItemHandler(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.props.deleteTask(this.taskItem.id);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var task = this.props.task;
+
+
       return _react2.default.createElement(
         'div',
         {
-          className: !this.props.task.isCompleted ? 'taskItem' : 'taskItem completed',
-          id: this.props.task._id,
-          onClick: this.toggleHandler
+          id: task._id,
+          ref: function ref(el) {
+            return _this2.taskItem = el;
+          },
+          onClick: this.toggleHandler,
+          className: !task.isCompleted ? 'taskItem' : 'taskItem completed'
         },
         _react2.default.createElement(
           'p',
           null,
-          this.props.task.text
+          task.text
         ),
         _react2.default.createElement(
           'a',
-          { href: '/', className: 'btn', onClick: this.clickHandler },
-          'del'
+          { href: '/', className: '', onClick: this.deleteItemHandler },
+          'delete'
         )
       );
     }
@@ -24313,6 +24319,8 @@ var ToDoItem = function (_Component) {
 
   return ToDoItem;
 }(_react.Component);
+
+ToDoItem.prototypes = {};
 
 exports.default = ToDoItem;
 
