@@ -1,27 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
 
-class ToDoList extends Component {
-  render() {
-    let taskItems;
+const ToDoList = props => {
+  let taskItems;
+  const { tasks, deleteTask, completeToggle } = props;
 
-    if (this.props.tasks) {
-      taskItems = this.props.tasks.map(task =>
-        <ToDoItem
-          key={task._id}
-          task={task}
-          toggleTask={this.props.toggleTask}
-          deleteTask={this.props.deleteTask}
-        />
-      );
-    }
-
-    return (
-      <div className="well">
-        {!this.props.tasks ? <p>загрузка..</p> : taskItems}
-      </div>
+  if (tasks) {
+    taskItems = tasks.map(task =>
+      <ToDoItem
+        key={task._id}
+        task={task}
+        deleteTask={deleteTask}
+        completeToggle={completeToggle}
+      />
     );
+  } else {
+    taskItems = <p>загрузка..</p>;
   }
-}
+
+  return (
+    <div className="">
+      {taskItems}
+    </div>
+  );
+};
+
+ToDoList.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  completeToggle: PropTypes.func.isRequired,
+};
 
 export default ToDoList;

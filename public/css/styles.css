@@ -1,9 +1,74 @@
+body {
+  background: #545065;
+}
+
+.task-form {
+  background: #6d6488;
+  border: 0px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.45);
+}
+
+.add-task {
+  position: relative;
+  margin: 0;
+}
+
+.add-task input {
+  padding: 6px 32px 6px 12px;
+}
+.form-submit {
+  position: absolute;
+  right: 8px;
+  TOP: 3px;
+  FONT-SIZE: 20PX;
+  color: #4caf50;
+}
+
 .taskItem {
-  padding: 5px;
+  position: relative;
+  height: 65px;
+  padding: 10px 45px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border-radius: 40px;
+  background: #6b79a2;
+  color: #fff;
+  box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.45);
+}
+
+.btn-complete,
+.btn-complete:focus {
+  position: absolute;
+  left: 12px;
+  top: 15px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.btn-complete:hover {
+  color: #4caf50;
+}
+
+.btn-edit {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #fff;
+}
+
+.btn-delete {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  color: #fff;
 }
 
 .completed {
-  background: red;
+  background: #59595a;
+  color: #7d7a7a;
+  text-decoration: line-through;
+}
+
+.check {
+  color: #4caf50;
 }

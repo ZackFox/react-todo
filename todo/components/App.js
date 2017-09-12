@@ -9,8 +9,8 @@ class App extends Component {
     super();
     this.state = { tasks: [] };
     this.addTask = this.addTask.bind(this);
-    this.toggleTask = this.toggleTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
+    this.completeToggle = this.completeToggle.bind(this);
   }
 
   componentDidMount() {
@@ -28,7 +28,15 @@ class App extends Component {
     });
   }
 
-  toggleTask(taskId) {
+  deleteTask(taskId) {
+    axios.delete(`/api/v1/task/${taskId}`).then(() => {
+      this.setState(prevState => ({
+        tasks: prevState.tasks.filter(({ _id }) => _id !== taskId),
+      }));
+    });
+  }
+
+  completeToggle(taskId) {
     axios.put(`/api/v1/task/${taskId}`).then(() => {
       this.setState(prevState => ({
         tasks: prevState.tasks.map(task => {
@@ -41,25 +49,19 @@ class App extends Component {
     });
   }
 
-  deleteTask(taskId) {
-    axios.delete(`/api/v1/task/${taskId}`).then(() => {
-      this.setState(prevState => ({
-        tasks: prevState.tasks.filter(({ _id }) => _id !== taskId),
-      }));
-    });
-  }
-
   render() {
     return (
       <div>
         <header>
           <h3>Менеджер задач</h3>
         </header>
+
         <ToDoForm addTask={this.addTask} />
+
         <ToDoList
           tasks={this.state.tasks}
-          toggleTask={this.toggleTask}
           deleteTask={this.deleteTask}
+          completeToggle={this.completeToggle}
         />
       </div>
     );
