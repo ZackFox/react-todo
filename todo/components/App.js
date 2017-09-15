@@ -2,22 +2,61 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import ToDoForm from '../components/ToDoForm';
+import ToDoFilter from '../components/ToDoFilter';
 import ToDoList from '../components/ToDoList';
 
 class App extends Component {
   constructor() {
     super();
-    this.state = { tasks: [] };
+    this.state = { tasks: [], filter: 'all' };
     this.addTask = this.addTask.bind(this);
+    this.doFilter = this.doFilter.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.completeToggle = this.completeToggle.bind(this);
   }
 
   componentDidMount() {
+    this.getTasks();
+  }
+
+  getTasks() {
     axios
       .get('/api/v1/tasks')
       .then(res => this.setState({ tasks: res.data }))
       .catch(err => console.log(err));
+  }
+
+  doFilter(filter) {
+    switch (filter) {
+      case 'all':
+        this.getTasks();
+        break;
+
+      case 'active':
+        axios
+          .get('/api/v1/tasks')
+          .then(res =>
+            this.setState({
+              tasks: res.data.filter(task => task.isCompleted === false),
+            })
+          )
+          .catch(err => console.log(err));
+        break;
+
+      case 'completed':
+        axios
+          .get('/api/v1/tasks')
+          .then(res =>
+            this.setState({
+              tasks: res.data.filter(task => task.isCompleted === true),
+            })
+          )
+          .catch(err => console.log(err));
+        break;
+
+      default:
+        break;
+    }
   }
 
   addTask(text) {
@@ -52,12 +91,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <header>
-          <h3>Менеджер задач</h3>
-        </header>
-
         <ToDoForm addTask={this.addTask} />
-
+        <ToDoFilter doFilter={this.doFilter} />
         <ToDoList
           tasks={this.state.tasks}
           deleteTask={this.deleteTask}

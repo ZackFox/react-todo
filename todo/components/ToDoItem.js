@@ -45,53 +45,50 @@ class ToDoItem extends Component {
   render() {
     const { task } = this.props;
     const { isEdited } = this.state;
+    let taskContent = null;
 
-    // let buttons;
-
-    // if (isEdited) {
-    //   textField = (
-    //     <input type="text" className="edit" defaultValue={task.text} />
-    //   );
-
-    //   buttons = (
-    //     <div>
-    //       <a href="/" className="" onClick={this.saveTaskHandler}>
-    //         Сохранить
-    //       </a>
-    //       <a href="/" className="" onClick={this.isEditToggleHandler}>
-    //         Отмена
-    //       </a>
-    //     </div>
-    //   );
-    // }
+    if (!isEdited) {
+      taskContent = (
+        <div>
+          <a
+            href="/"
+            className={`btn-complete ${task.isCompleted ? 'check' : ''}`}
+            onClick={this.completeToggleHandler}
+          >
+            <i className="fa fa-check" />
+          </a>
+          <p>
+            {task.text}
+          </p>
+          <a href="/" className="btn-edit" onClick={this.isEditToggleHandler}>
+            <i className="fa fa-pencil" />
+          </a>
+          <a href="/" className="btn-delete" onClick={this.deleteTaskHandler}>
+            <i className="fa fa-trash" />
+          </a>
+        </div>
+      );
+    } else {
+      taskContent = (
+        <div>
+          <input type="text" className="edit" defaultValue={task.text} />
+          <a href="/" className="btn-save" onClick={this.saveTaskHandler}>
+            ОК
+          </a>
+          <a href="/" className="btn-cancel" onClick={this.isEditToggleHandler}>
+            X
+          </a>
+        </div>
+      );
+    }
 
     return (
       <div
         id={task._id}
         ref={el => (this.taskItem = el)}
-        className={!task.isCompleted ? 'taskItem' : 'taskItem completed'}
+        className={`taskItem ${task.isCompleted ? 'completed' : ''}`}
       >
-        <a
-          href="/"
-          className="btn-complete"
-          onClick={this.completeToggleHandler}
-        >
-          <i
-            className={!task.isCompleted ? 'fa fa-check' : 'fa fa-check check'}
-          />
-        </a>
-
-        <p>
-          {task.text}
-        </p>
-
-        <a href="/" className="btn-edit" onClick={this.isEditToggleHandler}>
-          <i className="fa fa-pencil" />
-        </a>
-
-        <a href="/" className="btn-delete" onClick={this.isEditToggleHandler}>
-          <i className="fa fa-trash" />
-        </a>
+        {taskContent}
       </div>
     );
   }
