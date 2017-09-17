@@ -26,6 +26,12 @@ body {
   color: #4caf50;
 }
 
+.filter {
+  margin-bottom: 10px;
+}
+
+.btn-filter{}
+
 .taskItem {
   position: relative;
   padding: 10px 45px;

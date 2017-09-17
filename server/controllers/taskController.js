@@ -3,7 +3,19 @@ const Task = require('../models/task');
 const taskController = {};
 
 taskController.getTaskList = (req, res, next) => {
-  Task.find({}).then(tasks => res.json(tasks)).catch(err => next(err));
+  const filter = req.query.filter;
+
+  if (filter === 'all' || '') {
+    Task.find({}).then(tasks => res.json(tasks)).catch(err => next(err));
+  } else if (filter === 'current') {
+    Task.find({ isCompleted: false })
+      .then(tasks => res.json(tasks))
+      .catch(err => next(err));
+  } else if (filter === 'completed') {
+    Task.find({ isCompleted: true })
+      .then(tasks => res.json(tasks))
+      .catch(err => next(err));
+  }
 };
 
 taskController.create = (req, res) => {

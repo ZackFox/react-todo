@@ -10,53 +10,20 @@ class App extends Component {
     super();
     this.state = { tasks: [], filter: 'all' };
     this.addTask = this.addTask.bind(this);
-    this.doFilter = this.doFilter.bind(this);
+    this.getTasks = this.getTasks.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.completeToggle = this.completeToggle.bind(this);
   }
 
   componentDidMount() {
-    this.getTasks();
+    this.getTasks('all');
   }
 
-  getTasks() {
+  getTasks(filter) {
     axios
-      .get('/api/v1/tasks')
+      .get(`/api/v1/tasks?filter=${filter}`)
       .then(res => this.setState({ tasks: res.data }))
       .catch(err => console.log(err));
-  }
-
-  doFilter(filter) {
-    switch (filter) {
-      case 'all':
-        this.getTasks();
-        break;
-
-      case 'active':
-        axios
-          .get('/api/v1/tasks')
-          .then(res =>
-            this.setState({
-              tasks: res.data.filter(task => task.isCompleted === false),
-            })
-          )
-          .catch(err => console.log(err));
-        break;
-
-      case 'completed':
-        axios
-          .get('/api/v1/tasks')
-          .then(res =>
-            this.setState({
-              tasks: res.data.filter(task => task.isCompleted === true),
-            })
-          )
-          .catch(err => console.log(err));
-        break;
-
-      default:
-        break;
-    }
   }
 
   addTask(text) {
@@ -92,7 +59,7 @@ class App extends Component {
     return (
       <div>
         <ToDoForm addTask={this.addTask} />
-        <ToDoFilter doFilter={this.doFilter} />
+        <ToDoFilter doFilter={this.getTasks} />
         <ToDoList
           tasks={this.state.tasks}
           deleteTask={this.deleteTask}

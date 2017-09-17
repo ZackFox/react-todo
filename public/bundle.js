@@ -23163,7 +23163,7 @@ var App = function (_Component) {
 
     _this.state = { tasks: [], filter: 'all' };
     _this.addTask = _this.addTask.bind(_this);
-    _this.doFilter = _this.doFilter.bind(_this);
+    _this.getTasks = _this.getTasks.bind(_this);
     _this.deleteTask = _this.deleteTask.bind(_this);
     _this.completeToggle = _this.completeToggle.bind(_this);
     return _this;
@@ -23172,75 +23172,37 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.getTasks();
+      this.getTasks('all');
     }
   }, {
     key: 'getTasks',
-    value: function getTasks() {
+    value: function getTasks(filter) {
       var _this2 = this;
 
-      _axios2.default.get('/api/v1/tasks').then(function (res) {
+      _axios2.default.get('/api/v1/tasks?filter=' + filter).then(function (res) {
         return _this2.setState({ tasks: res.data });
       }).catch(function (err) {
         return console.log(err);
       });
     }
   }, {
-    key: 'doFilter',
-    value: function doFilter(filter) {
-      var _this3 = this;
-
-      switch (filter) {
-        case 'all':
-          this.getTasks();
-          break;
-
-        case 'active':
-          _axios2.default.get('/api/v1/tasks').then(function (res) {
-            return _this3.setState({
-              tasks: res.data.filter(function (task) {
-                return task.isCompleted === false;
-              })
-            });
-          }).catch(function (err) {
-            return console.log(err);
-          });
-          break;
-
-        case 'completed':
-          _axios2.default.get('/api/v1/tasks').then(function (res) {
-            return _this3.setState({
-              tasks: res.data.filter(function (task) {
-                return task.isCompleted === true;
-              })
-            });
-          }).catch(function (err) {
-            return console.log(err);
-          });
-          break;
-
-        default:
-          break;
-      }
-    }
-  }, {
     key: 'addTask',
     value: function addTask(text) {
-      var _this4 = this;
+      var _this3 = this;
 
       _axios2.default.post('/api/v1/task', { text: text }).then(function (res) {
-        var tasks = _this4.state.tasks;
+        var tasks = _this3.state.tasks;
         tasks.push(res.data.task);
-        _this4.setState({ tasks: tasks });
+        _this3.setState({ tasks: tasks });
       });
     }
   }, {
     key: 'deleteTask',
     value: function deleteTask(taskId) {
-      var _this5 = this;
+      var _this4 = this;
 
       _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
-        _this5.setState(function (prevState) {
+        _this4.setState(function (prevState) {
           return {
             tasks: prevState.tasks.filter(function (_ref) {
               var _id = _ref._id;
@@ -23253,10 +23215,10 @@ var App = function (_Component) {
   }, {
     key: 'completeToggle',
     value: function completeToggle(taskId) {
-      var _this6 = this;
+      var _this5 = this;
 
       _axios2.default.put('/api/v1/task/' + taskId).then(function () {
-        _this6.setState(function (prevState) {
+        _this5.setState(function (prevState) {
           return {
             tasks: prevState.tasks.map(function (task) {
               if (task._id === taskId) {
@@ -23275,7 +23237,7 @@ var App = function (_Component) {
         'div',
         null,
         _react2.default.createElement(_ToDoForm2.default, { addTask: this.addTask }),
-        _react2.default.createElement(_ToDoFilter2.default, { doFilter: this.doFilter }),
+        _react2.default.createElement(_ToDoFilter2.default, { doFilter: this.getTasks }),
         _react2.default.createElement(_ToDoList2.default, {
           tasks: this.state.tasks,
           deleteTask: this.deleteTask,
@@ -24370,15 +24332,18 @@ var ToDoFilter = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var filter = this.state.filter;
+
+
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'filter' },
         _react2.default.createElement(
           'a',
           {
             href: '/',
             id: 'all',
-            className: 'btn ' + (this.state.filter === 'all' ? 'btn-success' : 'btn-warning'),
+            className: 'btn-filter ' + (filter === 'all' ? 'btn-selected' : ''),
             onClick: this.filterHandler
           },
           '\u0432\u0441\u0435'
@@ -24387,8 +24352,8 @@ var ToDoFilter = function (_Component) {
           'a',
           {
             href: '/',
-            id: 'active',
-            className: 'btn ' + (this.state.filter === 'active' ? 'btn-success' : 'btn-warning'),
+            id: 'current',
+            className: 'btn-filter ' + (filter === 'current' ? 'btn-selected' : ''),
             onClick: this.filterHandler
           },
           '\u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0435'
@@ -24398,7 +24363,7 @@ var ToDoFilter = function (_Component) {
           {
             href: '/',
             id: 'completed',
-            className: 'btn ' + (this.state.filter === 'completed' ? 'btn-success' : 'btn-warning'),
+            className: 'btn-filter ' + (filter === 'completed' ? 'btn-selected' : ''),
             onClick: this.filterHandler
           },
           '\u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u044B\u0435'
@@ -24411,7 +24376,7 @@ var ToDoFilter = function (_Component) {
 }(_react.Component);
 
 ToDoFilter.propTypes = {
-  // addTask: PropTypes.func.isRequired,
+  doFilter: _propTypes2.default.func.isRequired
 };
 
 exports.default = ToDoFilter;

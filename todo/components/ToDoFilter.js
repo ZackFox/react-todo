@@ -16,24 +16,22 @@ class ToDoFilter extends Component {
   }
 
   render() {
+    const { filter } = this.state;
+
     return (
-      <div>
+      <div className="filter">
         <a
           href="/"
           id="all"
-          className={`btn ${this.state.filter === 'all'
-            ? 'btn-success'
-            : 'btn-warning'}`}
+          className={`btn-filter ${filter === 'all' ? 'btn-selected' : ''}`}
           onClick={this.filterHandler}
         >
           все
         </a>
         <a
           href="/"
-          id="active"
-          className={`btn ${this.state.filter === 'active'
-            ? 'btn-success'
-            : 'btn-warning'}`}
+          id="current"
+          className={`btn-filter ${filter === 'current' ? 'btn-selected' : ''}`}
           onClick={this.filterHandler}
         >
           активные
@@ -41,9 +39,9 @@ class ToDoFilter extends Component {
         <a
           href="/"
           id="completed"
-          className={`btn ${this.state.filter === 'completed'
-            ? 'btn-success'
-            : 'btn-warning'}`}
+          className={`btn-filter ${filter === 'completed'
+            ? 'btn-selected'
+            : ''}`}
           onClick={this.filterHandler}
         >
           выполненые
@@ -54,7 +52,7 @@ class ToDoFilter extends Component {
 }
 
 ToDoFilter.propTypes = {
-  // addTask: PropTypes.func.isRequired,
+  doFilter: PropTypes.func.isRequired,
 };
 
 export default ToDoFilter;
