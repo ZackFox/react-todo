@@ -2,6 +2,11 @@ body {
   background: #545065;
 }
 
+.heading {
+  color: #fff;
+  margin: 10px 0;
+}
+
 .task-form {
   background: #e4e4e1;
   border: none;
@@ -27,10 +32,21 @@ body {
 }
 
 .filter {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.btn-filter{}
+.btn-filter {
+  color: #b5acac;
+  margin-right: 10px;
+}
+
+.btn-selected,
+.btn-filter:hover,
+.btn-filter:focus {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
 
 .taskItem {
   position: relative;
@@ -40,6 +56,10 @@ body {
   background: #66ab7f;
   color: #e1e6f9;
   box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.45);
+}
+
+.taskItem:hover {
+  cursor: pointer;
 }
 
 .taskItem p {
@@ -86,8 +106,9 @@ body {
   width: 100%;
   border: none;
   padding: 5px 10px;
+  font-size: 20px;
   border-radius: 10px;
-  color: #000;
+  color: #716767;
 }
 
 .btn-save {

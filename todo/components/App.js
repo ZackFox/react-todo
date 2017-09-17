@@ -11,6 +11,7 @@ class App extends Component {
     this.state = { tasks: [], filter: 'all' };
     this.addTask = this.addTask.bind(this);
     this.getTasks = this.getTasks.bind(this);
+    this.updateTask = this.updateTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.completeToggle = this.completeToggle.bind(this);
   }
@@ -31,6 +32,23 @@ class App extends Component {
       const tasks = this.state.tasks;
       tasks.push(res.data.task);
       this.setState({ tasks });
+    });
+  }
+
+  updateTask(taskId, text) {
+    axios.post(`/api/v1/task/${taskId}`, { text }).then(task => {
+      this.setState(prevState => ({
+        tasks: prevState.tasks.map(item => {
+          if (item._id === taskId) {
+            item.text = text;
+          }
+          return item;
+        }),
+      }));
+      // console.log(task);
+      // this.setState(prevState => ({
+      //   tasks: prevState.tasks.filter(({ _id }) => _id === taskId),
+      // }));
     });
   }
 
@@ -58,10 +76,12 @@ class App extends Component {
   render() {
     return (
       <div>
+        <h2 className="heading">Список задач</h2>
         <ToDoForm addTask={this.addTask} />
         <ToDoFilter doFilter={this.getTasks} />
         <ToDoList
           tasks={this.state.tasks}
+          updateTask={this.updateTask}
           deleteTask={this.deleteTask}
           completeToggle={this.completeToggle}
         />

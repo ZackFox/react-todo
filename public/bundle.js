@@ -23164,6 +23164,7 @@ var App = function (_Component) {
     _this.state = { tasks: [], filter: 'all' };
     _this.addTask = _this.addTask.bind(_this);
     _this.getTasks = _this.getTasks.bind(_this);
+    _this.updateTask = _this.updateTask.bind(_this);
     _this.deleteTask = _this.deleteTask.bind(_this);
     _this.completeToggle = _this.completeToggle.bind(_this);
     return _this;
@@ -23197,12 +23198,34 @@ var App = function (_Component) {
       });
     }
   }, {
-    key: 'deleteTask',
-    value: function deleteTask(taskId) {
+    key: 'updateTask',
+    value: function updateTask(taskId, text) {
       var _this4 = this;
 
-      _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
+      _axios2.default.post('/api/v1/task/' + taskId, { text: text }).then(function (task) {
         _this4.setState(function (prevState) {
+          return {
+            tasks: prevState.tasks.map(function (item) {
+              if (item._id === taskId) {
+                item.text = text;
+              }
+              return item;
+            })
+          };
+        });
+        // console.log(task);
+        // this.setState(prevState => ({
+        //   tasks: prevState.tasks.filter(({ _id }) => _id === taskId),
+        // }));
+      });
+    }
+  }, {
+    key: 'deleteTask',
+    value: function deleteTask(taskId) {
+      var _this5 = this;
+
+      _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
+        _this5.setState(function (prevState) {
           return {
             tasks: prevState.tasks.filter(function (_ref) {
               var _id = _ref._id;
@@ -23215,10 +23238,10 @@ var App = function (_Component) {
   }, {
     key: 'completeToggle',
     value: function completeToggle(taskId) {
-      var _this5 = this;
+      var _this6 = this;
 
       _axios2.default.put('/api/v1/task/' + taskId).then(function () {
-        _this5.setState(function (prevState) {
+        _this6.setState(function (prevState) {
           return {
             tasks: prevState.tasks.map(function (task) {
               if (task._id === taskId) {
@@ -23236,10 +23259,16 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'h2',
+          { className: 'heading' },
+          '\u0421\u043F\u0438\u0441\u043E\u043A \u0437\u0430\u0434\u0430\u0447'
+        ),
         _react2.default.createElement(_ToDoForm2.default, { addTask: this.addTask }),
         _react2.default.createElement(_ToDoFilter2.default, { doFilter: this.getTasks }),
         _react2.default.createElement(_ToDoList2.default, {
           tasks: this.state.tasks,
+          updateTask: this.updateTask,
           deleteTask: this.deleteTask,
           completeToggle: this.completeToggle
         })
@@ -24409,6 +24438,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ToDoList = function ToDoList(props) {
   var taskItems = void 0;
   var tasks = props.tasks,
+      updateTask = props.updateTask,
       deleteTask = props.deleteTask,
       completeToggle = props.completeToggle;
 
@@ -24419,6 +24449,7 @@ var ToDoList = function ToDoList(props) {
         key: task._id,
         task: task,
         deleteTask: deleteTask,
+        updateTask: updateTask,
         completeToggle: completeToggle
       });
     });
@@ -24439,6 +24470,7 @@ var ToDoList = function ToDoList(props) {
 
 ToDoList.propTypes = {
   tasks: _propTypes2.default.arrayOf(_propTypes2.default.shape({})).isRequired,
+  updateTask: _propTypes2.default.func.isRequired,
   deleteTask: _propTypes2.default.func.isRequired,
   completeToggle: _propTypes2.default.func.isRequired
 };
@@ -24508,6 +24540,7 @@ var ToDoItem = function (_Component) {
     key: 'isEditToggleHandler',
     value: function isEditToggleHandler(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.setState(function (prevState) {
         return {
           isEdited: !prevState.isEdited
@@ -24518,7 +24551,10 @@ var ToDoItem = function (_Component) {
     key: 'saveTaskHandler',
     value: function saveTaskHandler(e) {
       e.preventDefault();
-      // axios request //
+      e.stopPropagation();
+      var id = this.taskItem.id;
+      var text = this.newText.value;
+      this.props.updateTask(id, text);
       this.setState(function (prevState) {
         return {
           isEdited: !prevState.isEdited
@@ -24529,6 +24565,7 @@ var ToDoItem = function (_Component) {
     key: 'deleteTaskHandler',
     value: function deleteTaskHandler(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.props.deleteTask(this.taskItem.id);
     }
   }, {
@@ -24544,13 +24581,12 @@ var ToDoItem = function (_Component) {
       if (!isEdited) {
         taskContent = _react2.default.createElement(
           'div',
-          null,
+          { onClick: !isEdited ? this.completeToggleHandler : null },
           _react2.default.createElement(
             'a',
             {
               href: '/',
-              className: 'btn-complete ' + (task.isCompleted ? 'check' : ''),
-              onClick: this.completeToggleHandler
+              className: 'btn-complete ' + (task.isCompleted ? 'check' : '')
             },
             _react2.default.createElement('i', { className: 'fa fa-check' })
           ),
@@ -24574,7 +24610,14 @@ var ToDoItem = function (_Component) {
         taskContent = _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement('input', { type: 'text', className: 'edit', defaultValue: task.text }),
+          _react2.default.createElement('input', {
+            type: 'text',
+            ref: function ref(el) {
+              return _this2.newText = el;
+            },
+            className: 'edit',
+            defaultValue: task.text
+          }),
           _react2.default.createElement(
             'a',
             { href: '/', className: 'btn-save', onClick: this.saveTaskHandler },
@@ -24607,6 +24650,7 @@ var ToDoItem = function (_Component) {
 
 ToDoItem.propTypes = {
   task: _propTypes2.default.shape().isRequired,
+  updateTask: _propTypes2.default.func.isRequired,
   deleteTask: _propTypes2.default.func.isRequired,
   completeToggle: _propTypes2.default.func.isRequired
 };

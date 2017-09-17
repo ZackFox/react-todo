@@ -27,12 +27,27 @@ taskController.create = (req, res) => {
   });
 };
 
-taskController.update = (req, res, next) => {
+taskController.toggle = (req, res, next) => {
   const _id = req.params.id;
 
   Task.findById({ _id })
     .then(task => {
       task.isCompleted = !task.isCompleted;
+      task.save();
+    })
+    .then(() => {
+      res.status(200).json({ status: '200', message: 'success' });
+    })
+    .catch(err => next(err));
+};
+
+taskController.update = (req, res, next) => {
+  const _id = req.params.id;
+  const text = req.body.text;
+
+  Task.findById({ _id })
+    .then(task => {
+      task.text = text;
       task.save();
     })
     .then(() => {

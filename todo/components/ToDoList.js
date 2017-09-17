@@ -4,7 +4,7 @@ import ToDoItem from './ToDoItem';
 
 const ToDoList = props => {
   let taskItems;
-  const { tasks, deleteTask, completeToggle } = props;
+  const { tasks, updateTask, deleteTask, completeToggle } = props;
 
   if (tasks) {
     taskItems = tasks.map(task =>
@@ -12,6 +12,7 @@ const ToDoList = props => {
         key={task._id}
         task={task}
         deleteTask={deleteTask}
+        updateTask={updateTask}
         completeToggle={completeToggle}
       />
     );
@@ -28,6 +29,7 @@ const ToDoList = props => {
 
 ToDoList.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  updateTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   completeToggle: PropTypes.func.isRequired,
 };

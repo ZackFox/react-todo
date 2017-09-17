@@ -24,6 +24,7 @@ class ToDoItem extends Component {
 
   isEditToggleHandler(e) {
     e.preventDefault();
+    e.stopPropagation();
     this.setState(prevState => ({
       isEdited: !prevState.isEdited,
     }));
@@ -31,7 +32,10 @@ class ToDoItem extends Component {
 
   saveTaskHandler(e) {
     e.preventDefault();
-    // axios request //
+    e.stopPropagation();
+    const id = this.taskItem.id;
+    const text = this.newText.value;
+    this.props.updateTask(id, text);
     this.setState(prevState => ({
       isEdited: !prevState.isEdited,
     }));
@@ -39,6 +43,7 @@ class ToDoItem extends Component {
 
   deleteTaskHandler(e) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.deleteTask(this.taskItem.id);
   }
 
@@ -49,11 +54,10 @@ class ToDoItem extends Component {
 
     if (!isEdited) {
       taskContent = (
-        <div>
+        <div onClick={!isEdited ? this.completeToggleHandler : null}>
           <a
             href="/"
             className={`btn-complete ${task.isCompleted ? 'check' : ''}`}
-            onClick={this.completeToggleHandler}
           >
             <i className="fa fa-check" />
           </a>
@@ -71,7 +75,12 @@ class ToDoItem extends Component {
     } else {
       taskContent = (
         <div>
-          <input type="text" className="edit" defaultValue={task.text} />
+          <input
+            type="text"
+            ref={el => (this.newText = el)}
+            className="edit"
+            defaultValue={task.text}
+          />
           <a href="/" className="btn-save" onClick={this.saveTaskHandler}>
             ОК
           </a>
@@ -96,6 +105,7 @@ class ToDoItem extends Component {
 
 ToDoItem.propTypes = {
   task: PropTypes.shape().isRequired,
+  updateTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   completeToggle: PropTypes.func.isRequired,
 };
