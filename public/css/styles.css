@@ -89,16 +89,16 @@ body {
 .btn-edit {
   display: none;
   position: absolute;
-  top: 6px;
-  right: 16px;
+  bottom: 6px;
+  right: 30px;
   color: #fff;
 }
 
 .btn-delete {
   display: none;
   position: absolute;
-  top: 32px;
-  right: 17px;
+  bottom: 6px;
+  right: 10px;
   color: #fff;
 }
 
@@ -146,4 +146,20 @@ body {
 .check {
   display: block;
   color: #4caf50;
+}
+
+footer {
+  width: 100%;
+  background: #000;
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+}
+
+footer p {
+  color: #fff;
+  text-align: center;
+}
+footer a {
+  color: yellow;
 }
