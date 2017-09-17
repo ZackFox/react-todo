@@ -24583,7 +24583,7 @@ var ToDoItem = function (_Component) {
           'div',
           { onClick: !isEdited ? this.completeToggleHandler : null },
           _react2.default.createElement(
-            'a',
+            'span',
             {
               href: '/',
               className: 'btn-complete ' + (task.isCompleted ? 'check' : '')

@@ -55,12 +55,12 @@ class ToDoItem extends Component {
     if (!isEdited) {
       taskContent = (
         <div onClick={!isEdited ? this.completeToggleHandler : null}>
-          <a
+          <span
             href="/"
             className={`btn-complete ${task.isCompleted ? 'check' : ''}`}
           >
             <i className="fa fa-check" />
-          </a>
+          </span>
           <p>
             {task.text}
           </p>

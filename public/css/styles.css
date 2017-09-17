@@ -89,16 +89,16 @@ body {
 .btn-edit {
   display: none;
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 6px;
+  right: 16px;
   color: #fff;
 }
 
 .btn-delete {
   display: none;
   position: absolute;
-  bottom: 10px;
-  right: 20px;
+  top: 32px;
+  right: 17px;
   color: #fff;
 }
 
@@ -111,17 +111,23 @@ body {
   color: #716767;
 }
 
-.btn-save {
+.btn-save,
+.btn-save:hover,
+.btn-save:focus {
   position: absolute;
-  right: 15px;
+  right: 11px;
   top: 10px;
-  color: #4caf50;
+  font-weight: 600;
+  color: #fff;
 }
 
-.btn-cancel {
+.btn-cancel,
+.btn-cancel:hover,
+.btn-cancel:focus {
   position: absolute;
-  right: 15px;
-  top: 30px;
+  top: 32px;
+  right: 16px;
+  font-weight: 600;
   color: red;
 }
 
