@@ -135,7 +135,7 @@ body {
 .btn-cancel,
 .btn-cancel:hover,
 .btn-cancel:focus {
-  /* position: absolute; */
+  position: absolute;
   top: 32px;
   right: 16px;
   font-weight: 600;
