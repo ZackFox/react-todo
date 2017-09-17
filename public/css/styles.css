@@ -1,5 +1,16 @@
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   background: #545065;
+  position: relative;
+}
+
+.container {
+  min-height: 100%;
+  padding-bottom: 80px;
 }
 
 .heading {
@@ -124,7 +135,7 @@ body {
 .btn-cancel,
 .btn-cancel:hover,
 .btn-cancel:focus {
-  position: absolute;
+  /* position: absolute; */
   top: 32px;
   right: 16px;
   font-weight: 600;
@@ -150,9 +161,9 @@ body {
 
 footer {
   width: 100%;
+  height: 50px;
+  margin-top: -50px;
   background: #000;
-  position: absolute;
-  bottom: 0;
   padding: 10px;
 }
 
