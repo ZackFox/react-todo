@@ -19,7 +19,9 @@ class ToDoItem extends Component {
   completeToggleHandler(e) {
     e.preventDefault();
     const taskId = this.taskItem.id;
-    this.props.completeToggle(taskId);
+    if (!this.state.isEdited) {
+      this.props.completeToggle(taskId);
+    }
   }
 
   isEditToggleHandler(e) {
@@ -96,7 +98,7 @@ class ToDoItem extends Component {
         id={task._id}
         ref={el => (this.taskItem = el)}
         className={`taskItem ${task.isCompleted ? 'completed' : ''}`}
-        onClick={!isEdited ? this.completeToggleHandler : null}
+        onClick={this.completeToggleHandler}
       >
         {taskContent}
       </div>

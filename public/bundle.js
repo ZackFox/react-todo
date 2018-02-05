@@ -24535,7 +24535,9 @@ var ToDoItem = function (_Component) {
     value: function completeToggleHandler(e) {
       e.preventDefault();
       var taskId = this.taskItem.id;
-      this.props.completeToggle(taskId);
+      if (!this.state.isEdited) {
+        this.props.completeToggle(taskId);
+      }
     }
   }, {
     key: 'isEditToggleHandler',
@@ -24640,7 +24642,7 @@ var ToDoItem = function (_Component) {
             return _this2.taskItem = el;
           },
           className: 'taskItem ' + (task.isCompleted ? 'completed' : ''),
-          onClick: !isEdited ? this.completeToggleHandler : null
+          onClick: this.completeToggleHandler
         },
         taskContent
       );
