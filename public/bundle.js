@@ -23241,20 +23241,17 @@ var App = function (_Component) {
   }, {
     key: 'completeToggle',
     value: function completeToggle(taskId) {
-      var _this5 = this;
-
       var tasks = Object.assign([], this.state.tasks);
-      tasks.map(function (task) {
+      var toggled = tasks.map(function (task) {
         if (task._id === taskId) {
           task.isCompleted = !task.isCompleted;
         }
         return task;
       });
 
-      _axios2.default.put('/api/v1/task/' + taskId).then(function () {
-        _this5.setState(function (state) {
-          return Object.assign({ tasks: tasks }, state.tasks);
-        });
+      this.setState({ tasks: toggled });
+      _axios2.default.put('/api/v1/task/' + taskId).catch(function (err) {
+        return console.log(err);
       });
     }
   }, {
@@ -24585,7 +24582,7 @@ var ToDoItem = function (_Component) {
       if (!isEdited) {
         taskContent = _react2.default.createElement(
           'div',
-          { onClick: !isEdited ? this.completeToggleHandler : null },
+          null,
           _react2.default.createElement(
             'span',
             {
@@ -24630,7 +24627,7 @@ var ToDoItem = function (_Component) {
           _react2.default.createElement(
             'a',
             { href: '/', className: 'btn-cancel', onClick: this.isEditToggleHandler },
-            'X'
+            _react2.default.createElement('i', { className: 'fa fa-times' })
           )
         );
       }
@@ -24642,7 +24639,8 @@ var ToDoItem = function (_Component) {
           ref: function ref(el) {
             return _this2.taskItem = el;
           },
-          className: 'taskItem ' + (task.isCompleted ? 'completed' : '')
+          className: 'taskItem ' + (task.isCompleted ? 'completed' : ''),
+          onClick: !isEdited ? this.completeToggleHandler : null
         },
         taskContent
       );

@@ -54,7 +54,7 @@ class ToDoItem extends Component {
 
     if (!isEdited) {
       taskContent = (
-        <div onClick={!isEdited ? this.completeToggleHandler : null}>
+        <div>
           <span
             href="/"
             className={`btn-complete ${task.isCompleted ? 'check' : ''}`}
@@ -85,7 +85,7 @@ class ToDoItem extends Component {
             ОК
           </a>
           <a href="/" className="btn-cancel" onClick={this.isEditToggleHandler}>
-            X
+            <i className="fa fa-times" />
           </a>
         </div>
       );
@@ -96,6 +96,7 @@ class ToDoItem extends Component {
         id={task._id}
         ref={el => (this.taskItem = el)}
         className={`taskItem ${task.isCompleted ? 'completed' : ''}`}
+        onClick={!isEdited ? this.completeToggleHandler : null}
       >
         {taskContent}
       </div>

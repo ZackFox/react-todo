@@ -100,8 +100,8 @@ body {
 .btn-edit {
   display: none;
   position: absolute;
-  bottom: 6px;
-  right: 30px;
+  top: 6px;
+  right: 10px;
   color: #fff;
 }
 

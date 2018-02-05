@@ -64,16 +64,15 @@ class App extends Component {
 
   completeToggle(taskId) {
     const tasks = Object.assign([], this.state.tasks);
-    tasks.map(task => {
+    const toggled = tasks.map(task => {
       if (task._id === taskId) {
         task.isCompleted = !task.isCompleted;
       }
       return task;
     });
 
-    axios.put(`/api/v1/task/${taskId}`).then(() => {
-      this.setState(state => Object.assign({ tasks }, state.tasks));
-    });
+    this.setState({ tasks: toggled });
+    axios.put(`/api/v1/task/${taskId}`).catch(err => console.log(err));
   }
 
   render() {
