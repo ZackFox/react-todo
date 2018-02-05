@@ -23180,8 +23180,9 @@ var App = function (_Component) {
     value: function getTasks(filter) {
       var _this2 = this;
 
-      _axios2.default.get('/api/v1/tasks?filter=' + filter).then(function (res) {
-        return _this2.setState({ tasks: res.data });
+      _axios2.default.get('/api/v1/tasks?filter=' + filter).then(function (_ref) {
+        var data = _ref.data;
+        return _this2.setState({ tasks: data });
       }).catch(function (err) {
         return console.log(err);
       });
@@ -23191,10 +23192,16 @@ var App = function (_Component) {
     value: function addTask(text) {
       var _this3 = this;
 
-      _axios2.default.post('/api/v1/task', { text: text }).then(function (res) {
-        var tasks = _this3.state.tasks;
-        tasks.push(res.data.task);
-        _this3.setState({ tasks: tasks });
+      var tasks = Object.assign([], this.state.tasks);
+      _axios2.default.post('/api/v1/task', { text: text }).then(function (_ref2) {
+        var data = _ref2.data;
+
+        tasks.push(data.task);
+        _this3.setState(function (state) {
+          return Object.assign({ tasks: tasks }, state.tasks);
+        });
+      }).catch(function (err) {
+        return console.log(err);
       });
     }
   }, {
@@ -23202,54 +23209,51 @@ var App = function (_Component) {
     value: function updateTask(taskId, text) {
       var _this4 = this;
 
-      _axios2.default.post('/api/v1/task/' + taskId, { text: text }).then(function (task) {
-        _this4.setState(function (prevState) {
-          return {
-            tasks: prevState.tasks.map(function (item) {
-              if (item._id === taskId) {
-                item.text = text;
-              }
-              return item;
-            })
-          };
+      var tasks = Object.assign([], this.state.tasks);
+      tasks.map(function (item) {
+        if (item._id === taskId) {
+          item.text = text;
+        }
+        return item;
+      });
+
+      _axios2.default.post('/api/v1/task/' + taskId, { text: text }).then(function () {
+        _this4.setState(function (state) {
+          return Object.assign({ tasks: tasks }, state.tasks);
         });
-        // console.log(task);
-        // this.setState(prevState => ({
-        //   tasks: prevState.tasks.filter(({ _id }) => _id === taskId),
-        // }));
+      }).catch(function (err) {
+        return console.log(err);
       });
     }
   }, {
     key: 'deleteTask',
     value: function deleteTask(taskId) {
-      var _this5 = this;
-
-      _axios2.default.delete('/api/v1/task/' + taskId).then(function () {
-        _this5.setState(function (prevState) {
-          return {
-            tasks: prevState.tasks.filter(function (_ref) {
-              var _id = _ref._id;
-              return _id !== taskId;
-            })
-          };
-        });
+      var tasks = Object.assign([], this.state.tasks);
+      var deleted = tasks.filter(function (_ref3) {
+        var _id = _ref3._id;
+        return _id !== taskId;
+      });
+      this.setState({ tasks: deleted });
+      _axios2.default.delete('/api/v1/task/' + taskId).catch(function (err) {
+        return console.log(err);
       });
     }
   }, {
     key: 'completeToggle',
     value: function completeToggle(taskId) {
-      var _this6 = this;
+      var _this5 = this;
+
+      var tasks = Object.assign([], this.state.tasks);
+      tasks.map(function (task) {
+        if (task._id === taskId) {
+          task.isCompleted = !task.isCompleted;
+        }
+        return task;
+      });
 
       _axios2.default.put('/api/v1/task/' + taskId).then(function () {
-        _this6.setState(function (prevState) {
-          return {
-            tasks: prevState.tasks.map(function (task) {
-              if (task._id === taskId) {
-                task.isCompleted = !task.isCompleted;
-              }
-              return task;
-            })
-          };
+        _this5.setState(function (state) {
+          return Object.assign({ tasks: tasks }, state.tasks);
         });
       });
     }

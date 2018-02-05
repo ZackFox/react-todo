@@ -23,53 +23,56 @@ class App extends Component {
   getTasks(filter) {
     axios
       .get(`/api/v1/tasks?filter=${filter}`)
-      .then(res => this.setState({ tasks: res.data }))
+      .then(({ data }) => this.setState({ tasks: data }))
       .catch(err => console.log(err));
   }
 
   addTask(text) {
-    axios.post('/api/v1/task', { text }).then(res => {
-      const tasks = this.state.tasks;
-      tasks.push(res.data.task);
-      this.setState({ tasks });
-    });
+    const tasks = Object.assign([], this.state.tasks);
+    axios
+      .post('/api/v1/task', { text })
+      .then(({ data }) => {
+        tasks.push(data.task);
+        this.setState(state => Object.assign({ tasks }, state.tasks));
+      })
+      .catch(err => console.log(err));
   }
 
   updateTask(taskId, text) {
-    axios.post(`/api/v1/task/${taskId}`, { text }).then(task => {
-      this.setState(prevState => ({
-        tasks: prevState.tasks.map(item => {
-          if (item._id === taskId) {
-            item.text = text;
-          }
-          return item;
-        }),
-      }));
-      // console.log(task);
-      // this.setState(prevState => ({
-      //   tasks: prevState.tasks.filter(({ _id }) => _id === taskId),
-      // }));
+    const tasks = Object.assign([], this.state.tasks);
+    tasks.map(item => {
+      if (item._id === taskId) {
+        item.text = text;
+      }
+      return item;
     });
+
+    axios
+      .post(`/api/v1/task/${taskId}`, { text })
+      .then(() => {
+        this.setState(state => Object.assign({ tasks }, state.tasks));
+      })
+      .catch(err => console.log(err));
   }
 
   deleteTask(taskId) {
-    axios.delete(`/api/v1/task/${taskId}`).then(() => {
-      this.setState(prevState => ({
-        tasks: prevState.tasks.filter(({ _id }) => _id !== taskId),
-      }));
-    });
+    const tasks = Object.assign([], this.state.tasks);
+    const deleted = tasks.filter(({ _id }) => _id !== taskId);
+    this.setState({ tasks: deleted });
+    axios.delete(`/api/v1/task/${taskId}`).catch(err => console.log(err));
   }
 
   completeToggle(taskId) {
+    const tasks = Object.assign([], this.state.tasks);
+    tasks.map(task => {
+      if (task._id === taskId) {
+        task.isCompleted = !task.isCompleted;
+      }
+      return task;
+    });
+
     axios.put(`/api/v1/task/${taskId}`).then(() => {
-      this.setState(prevState => ({
-        tasks: prevState.tasks.map(task => {
-          if (task._id === taskId) {
-            task.isCompleted = !task.isCompleted;
-          }
-          return task;
-        }),
-      }));
+      this.setState(state => Object.assign({ tasks }, state.tasks));
     });
   }
 
