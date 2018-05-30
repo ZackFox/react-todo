@@ -1,4 +1,11 @@
-react todo app with server api on Express.js and Mongoose
+## React приложение ToDo list
+BackEnd api реализовано на Express.js и Mongoose
 
-demo on heroku
+* Создание задач
+* редактирование задач
+* изменение состояния задачи
+* фильтр задач по состоянию 
+* удаление задачи 
+
+Live Demo on heroku
 https://reactdos.herokuapp.com
