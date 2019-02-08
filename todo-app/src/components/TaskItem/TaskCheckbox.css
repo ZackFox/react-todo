@@ -1,0 +1,23 @@
+.task-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.proxy-checkbox {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 20px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.proxy-checkbox.checked::after {
+  content: "\2714";
+  display: block;
+  color: #58d485;
+  font-size: 36px;
+  line-height: 35px;
+  text-align: center;
+}

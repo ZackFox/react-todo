@@ -1,67 +1,41 @@
 {
-  "name": "todoReactApp",
+  "name": "todo-react-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "build": "webpack && node server/server.js",
-    "webpack": "webpack",
+    "start": "node server/server.js && cd todo-app && npm start",
+    "build": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.16.2",
-    "body-parser": "^1.17.2",
-    "express": "^4.15.4",
-    "mongoose": "^4.11.9",
-    "path": "^0.12.7",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-router": "^4.2.0"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^4.13.18"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "eslint": "^3.19.0",
+    "eslint": "^5.6.0",
     "eslint-cli": "^1.1.1",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-config-prettier": "^2.3.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
     "nodemon": "^1.11.0",
-    "prettier": "^1.5.3",
-    "webpack": "^3.5.5"
-  },
-  "babel": {
-    "presets": [
-      "env",
-      "react"
-    ]
+    "prettier": "^1.16.4"
   },
   "eslintConfig": {
     "extends": [
-      "airbnb",
-      "prettier",
-      "prettier/react"
+      "airbnb-base",
+      "prettier"
     ],
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import"
-    ],
-    "rules": {
-      "react/jsx-filename-extension": "off",
-      "react/prefer-stateless-function": "off",
-      "jsx-a11y/href-no-hash": "off",
-      "jsx-a11y/img-has-alt": "off"
+    "env": {
+      "browser": true
     }
+  },
+  "prettier": {
+    "trallingComma": "all"
   }
 }
