@@ -1,0 +1,26 @@
+.task-form {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.task-form .input-text {
+  width: 100%;
+  padding: 10px 45px 10px 10px;
+  box-sizing: border-box;
+  border: none;
+}
+
+.form-submit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  font-size: 40px;
+  line-height: 26px;
+  color: #58d485;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  height: 100%;
+}

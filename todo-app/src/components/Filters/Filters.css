@@ -1,0 +1,22 @@
+.filters {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  padding: 20px 0;
+}
+
+.filter-link {
+  margin-right: 10px;
+  color: darkgrey;
+  text-decoration: none;
+}
+
+.filter-link:last-child {
+  margin-right: 0;
+}
+
+.filter-link:hover,
+.filter-link.active {
+  color: #fff;
+  text-decoration: underline;
+}
