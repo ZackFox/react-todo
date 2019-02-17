@@ -21,26 +21,20 @@ export const getAllTasks = () => dispatch => {
 export const addTask = text => dispatch => {
   axios
     .post("/api/v1/tasks", { text })
-    .then(({ data }) => {
-      dispatch({ type: ADD_TASK, task: data.task });
-    })
+    .then(({ data }) => dispatch({ type: ADD_TASK, task: data.task }))
     .catch(err => console.log(err));
 };
 
-export const updateTask = (id, task) => dispatch => {
+export const updateTask = (nextTask, prevTask) => dispatch => {
+  dispatch({ type: UPDATE_TASK, task: nextTask });
   axios
-    .put(`/api/v1/tasks/${id}`, task)
-    .then(({ data }) => {
-      dispatch({ type: UPDATE_TASK, task: data.task });
-    })
-    .catch(err => console.log(err));
+    .put(`/api/v1/tasks/${nextTask._id}`, nextTask)
+    .catch(err => dispatch({ type: UPDATE_TASK, task: prevTask }));
 };
 
-export const deleteTask = id => dispatch => {
+export const deleteTask = task => dispatch => {
+  dispatch({ type: DELETE_TASK, task });
   axios
-    .delete(`/api/v1/tasks/${id}`)
-    .then(({ data }) => {
-      dispatch({ type: DELETE_TASK, task: data.task });
-    })
-    .catch(err => console.log(err));
+    .delete(`/api/v1/tasks/${task._id}`)
+    .catch(err => dispatch({ type: ADD_TASK, task }));
 };
