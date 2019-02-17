@@ -15,56 +15,69 @@ class TaskItem extends Component {
     };
   }
 
-  toggleEdit = e => {
-    e.preventDefault();
-    this.setState(state => ({ isEdited: !state.isEdited }));
+  valueChangeHandler = e => {
+    this.setState({ value: e.target.value });
   };
 
-  toggleHandler = () => {
+  completeChangeHandler = () => {
     if (!this.state.isEdited) {
-      const id = this.props.task._id;
-      const text = this.props.task.text;
-      const isCompleted = !this.props.task.isCompleted;
-      this.props.updateTask(id, { text, isCompleted });
+      const updatedTask = {
+        ...this.props.task,
+        isCompleted: !this.props.task.isCompleted
+      };
+
+      this.props.updateTask(updatedTask, this.props.task);
     }
   };
 
-  submitHandler = e => {
+  editHandler = e => {
     e.preventDefault();
-    const id = this.props.task._id;
-    const text = e.target.parentNode.querySelector(".task-text").value;
-    const isCompleted = this.props.task.isCompleted;
-    this.props.updateTask(id, { text, isCompleted });
-    this.toggleEdit(e);
+    this.setState(state => ({ isEdited: true }));
+  };
+
+  cancelHandler = e => {
+    e.preventDefault();
+    this.setState({ value: this.props.task.text, isEdited: false });
   };
 
   deleteHandler = e => {
     e.preventDefault();
-    this.props.deleteTask(this.props.task._id);
+    this.props.deleteTask(this.props.task);
+  };
+
+  submitHandler = e => {
+    e.preventDefault();
+    const card = e.target.parentNode;
+    const text = card.querySelector(".task-text").value;
+    const updatedTask = { ...this.props.task, text };
+
+    this.props.updateTask(updatedTask, this.props.task);
+    this.setState({ isEdited: false });
   };
 
   render() {
     const { isEdited } = this.state;
 
     return (
-      <div className={`task-item`}>
+      <div className="task-item">
         <TaskCheckbox
           id={this.props.task._id}
           isCompleted={this.props.task.isCompleted}
-          onToggle={this.toggleHandler}
+          onToggle={this.completeChangeHandler}
         />
 
         {!isEdited ? (
           <TaskCard
             text={this.props.task.text}
             isCompleted={this.props.task.isCompleted}
-            onEdit={this.toggleEdit}
+            onEdit={this.editHandler}
             onDelete={this.deleteHandler}
           />
         ) : (
           <EditedTaskCard
             text={this.props.task.text}
-            onCancel={this.toggleEdit}
+            // onTyping={this.valueChangeHandler}
+            onCancel={this.cancelHandler}
             onSave={this.submitHandler}
           />
         )}
