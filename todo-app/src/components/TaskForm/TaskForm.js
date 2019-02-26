@@ -1,44 +1,40 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import "./TaskForm.css";
 
-class TaskForm extends Component {
-  state = { value: "" };
+const TaskForm = ({ addTask }) => {
+  const [value, setValue] = useState("");
 
-  changeHandler = e => {
-    this.setState({ value: e.target.value });
+  const changeHandler = e => {
+    setValue(e.target.value);
   };
 
-  submitHandler = e => {
+  const submitHandler = e => {
     e.preventDefault();
-    const text = this.state.value;
-    if (text === "") return;
-
-    this.props.addTask(text);
-    this.setState({ value: "" });
+    if (value === "") return;
+    addTask(value);
+    setValue("");
   };
 
-  render() {
-    return (
-      <div className="task-form">
-        <form onSubmit={this.submitHandler}>
-          <input
-            type="text"
-            className="input-text"
-            onChange={this.changeHandler}
-            value={this.state.value}
-            placeholder="Добавить задачу"
-          />
+  return (
+    <div className="task-form">
+      <form onSubmit={submitHandler}>
+        <input
+          type="text"
+          className="input-text"
+          onChange={changeHandler}
+          value={value}
+          placeholder="Добавить задачу"
+        />
 
-          <a href="/" className="form-submit" onClick={this.submitHandler}>
-            +
-          </a>
-        </form>
-      </div>
-    );
-  }
-}
+        <a href="/" className="form-submit" onClick={submitHandler}>
+          +
+        </a>
+      </form>
+    </div>
+  );
+};
 
 TaskForm.propTypes = {
   addTask: PropTypes.func.isRequired

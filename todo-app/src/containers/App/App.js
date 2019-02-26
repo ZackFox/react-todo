@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -17,41 +17,40 @@ import TasksList from "../../components/TasksList/TasksList";
 
 import "./App.css";
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getAllTasks();
-  }
+const App = props => {
+  useEffect(() => {
+    props.getAllTasks();
+  }, []);
 
-  render() {
-    return (
-      <div className="app">
-        <header>
-          <h2 className="heading">Список задач</h2>
-        </header>
-        <main className="main">
-          <TaskForm addTask={this.props.addTask} />
-          <Filters
-            activeFilter={this.props.activeFilter}
-            changeFilter={this.props.changeFilter}
-          />
-          <TasksList
-            isLoading={this.props.isLoading}
-            tasks={this.props.tasks}
-            updateTask={this.props.updateTask}
-            deleteTask={this.props.deleteTask}
-          />
-        </main>
-        <footer>
-          <p>
-            ToDo App{" "}
-            <a href="https://github.com/ZackFox/react-todo">(GitHub)</a> coding
-            by ZackFox
-          </p>
-        </footer>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="app">
+      <header>
+        <h2 className="heading">Список задач</h2>
+      </header>
+
+      <main className="main">
+        <TaskForm addTask={props.addTask} />
+        <Filters
+          activeFilter={props.activeFilter}
+          changeFilter={props.changeFilter}
+        />
+        <TasksList
+          isLoading={props.isLoading}
+          tasks={props.tasks}
+          updateTask={props.updateTask}
+          deleteTask={props.deleteTask}
+        />
+      </main>
+
+      <footer>
+        <p>
+          ToDo App <a href="https://github.com/ZackFox/react-todo">(GitHub)</a>{" "}
+          coding by ZackFox
+        </p>
+      </footer>
+    </div>
+  );
+};
 
 export default connect(
   state => ({
@@ -59,5 +58,11 @@ export default connect(
     isLoading: state.taskReducer.isLoading,
     activeFilter: state.filter.active
   }),
-  { changeFilter, getAllTasks, addTask, updateTask, deleteTask }
+  {
+    getAllTasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    changeFilter
+  }
 )(App);

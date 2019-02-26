@@ -1,10 +1,8 @@
-const CHANGE_FILTER = "CHANGE_FILTER";
+export const CHANGE_FILTER = "CHANGE_FILTER";
 
 export const filters = ["all", "current", "completed"];
 
-export const changeFilter = filter => dispatch => {
-  dispatch({ type: CHANGE_FILTER, filter });
-};
+export const changeFilter = filter => ({ type: CHANGE_FILTER, filter });
 
 export default (state = { active: "all" }, action) => {
   switch (action.type) {
