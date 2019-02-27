@@ -7,7 +7,7 @@ import TaskCard from "./TaskCard";
 import EditedTaskCard from "./EditedTaskCard";
 import TaskCheckbox from "./TaskCheckbox";
 
-const TaskItem = ({ task, updateTask, deleteTask }) => {
+const TaskItem = React.memo(({ task, updateTask, deleteTask }) => {
   const [isEdited, setEdited] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ const TaskItem = ({ task, updateTask, deleteTask }) => {
       )}
     </div>
   );
-};
+});
 
 TaskItem.propTypes = {
   task: PropTypes.shape({}).isRequired,
