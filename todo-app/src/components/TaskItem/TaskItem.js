@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 
 import "./TaskItem.css";
@@ -7,7 +7,7 @@ import TaskCard from "./TaskCard";
 import EditedTaskCard from "./EditedTaskCard";
 import TaskCheckbox from "./TaskCheckbox";
 
-class TaskItem extends Component {
+class TaskItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
